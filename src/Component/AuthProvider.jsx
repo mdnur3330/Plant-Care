@@ -17,7 +17,6 @@ export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const authProvider = new GoogleAuthProvider();
-  const [darkMode, setDarkMode] = useState(false);
   const [user, setUser] = useState();
   const [loding, setLoding] = useState(true);
 
@@ -50,10 +49,6 @@ const AuthProvider = ({ children }) => {
     return updateProfile(auth.currentUser, updateData).then(()=>{setUser({...auth.currentUser})}).finally(() => {
             setLoding(false);
         });
-  };
-
-  const toggleTheme = () => {
-    setDarkMode((prev) => !prev);
   };
 
   const handelDelete = (id) => {
@@ -95,14 +90,12 @@ const AuthProvider = ({ children }) => {
     handelDelete,
     user,
     loding,
-    darkMode,
-    toggleTheme,
     userUpdateProfile,
   };
 
   return (
     <AuthContext value={authData}>
-      <div className={darkMode ? "app dark" : "app light"}>{children}</div>
+   {children}
     </AuthContext>
   );
 };

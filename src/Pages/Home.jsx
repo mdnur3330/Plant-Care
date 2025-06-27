@@ -1,116 +1,99 @@
-import React, {} from "react";
+
+
+import React from "react";
 import { Link, useLoaderData } from "react-router";
 // import Swal from "sweetalert2";
 // import { AuthContext } from "../Component/AuthProvider";
 import Hero from "./Hero";
-
 import HomeSection from "./HomeSection";
 import TopRatingBestSelling from "./TopRatingBestSelling";
 import { Helmet } from "react-helmet";
+import HowWorks from "./HowWorks";
+import TipsForCustomer from "./TipsForCustomer";
 
 const Home = () => {
   const initialPlnats = useLoaderData();
   console.log(initialPlnats);
 
-  // const { handelDelete } = useContext(AuthContext);
-  // const [plants, setPlants] = useState(initialPlnats)
-  // const [plants, setPlants] = useState(
-  //   Array.isArray(initialPlnats) ? initialPlnats : []
-  // );
-
-  // useEffect(()=>{
-  //   fetch("https://57-module-assintment-10.vercel.app/latest-plants").then(res => res.json()).then(data => {
-  //           console.log(data);
-  //           setPlants(data);
-  //         })
-  //   setPlants(initialPlnats.slice(0, 6));
-  // },[plants])
-
-  // const handelPlantDelete = (id) => {
-  //   handelDelete(id)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (data.deletedCount) {
-  //         const newPlants =  plants.filter((plant) => plant._id !== id);
-  //         setPlants(newPlants);
-  //       }
-         
-  //       console.log("after deleteing", data);
-  //       Swal.fire({
-  //         title: "Deleted!",
-  //         text: "Your file has been deleted.",
-  //         icon: "success",
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       //      Swal.fire({
-  //       //   title: err.massege,
-  //       //   icon: "errore"
-  //       // });
-  //     });
-  // };
-
   return (
     <div>
       <Helmet>
-        <title>Home</title>
+        <title>Home | GreenLeaf Plant Store</title>
       </Helmet>
 
-      <Hero></Hero>
+ 
+      <Hero />
 
-      <HomeSection></HomeSection>
+  <HomeSection />
 
-      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-        <h1 className="text-5xl font-medium my-20">New Plants</h1>
-        <div className="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
+
+      <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-6 lg:px-8 lg:py-20">
+        {/* Title and Description */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-green-700 mb-4">
+            🌱 Our Latest Plants Collection
+          </h2>
+          <p className="text-gray-600 max-w-xl mx-auto">
+            Discover the newest additions to our plant family! Whether you're a beginner or a seasoned plant parent, we’ve got something fresh and beautiful just for you.
+          </p>
+        </div>
+
+
+        <div className="grid gap-8 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 sm:max-w-sm sm:mx-auto lg:max-w-full">
           {initialPlnats.map((plant) => (
             <div
               key={plant._id}
-              className="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-sm border border-gray-300"
+              className="bg-white border border-gray-300 relative overflow-hidden transition duration-300 transform rounded shadow-lg hover:-translate-y-1 hover:shadow-xl"
             >
-              <div>
-                <img
-                  src={plant.photo}
-                  className="object-cover w-full h-64 border-b border-gray-300"
-                  alt=""
-                />
-              </div>
+              <img
+                src={plant.photo}
+                className="object-cover w-full h-64 border-b border-gray-300"
+                alt={plant.plantName}
+              />
               <div className="p-5">
-                <div className="mb-3 text-xs font-semibold tracking-wide uppercase">
-                  <p className="text-gray-600">last-Watered-date</p>
-                  <span className="text-gray-600">
-                    — {plant.lastWateredDate}
-                  </span>
+                <div className="mb-2 text-sm font-semibold tracking-wide uppercase text-gray-600">
+                  Name: <span className="text-gray-800">{plant.plantName}</span>
                 </div>
-                <p className="inline-block mb-3 text-xl text-gray-500 font-bold leading-5 transition-colors duration-200">
-                  Name: {plant.plantName}
-                </p>
-                <p className="mb-2 text-gray-700 h-12 truncate">
-                  Description: {plant.description}
-                </p>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center mt-3">
                   <Link
                     to={`/details/${plant._id}`}
-                    className="border border-gray-500 text-gray-500 px-5 py-2 font-medium rounded-md"
+                    className="px-4 py-2 text-sm font-medium text-green-700 border border-green-600 rounded-md hover:bg-green-600 hover:text-white transition"
                   >
                     Details
                   </Link>
-
-                  {/* <button
-                    className="border border-gray-500  px-5 py-2 font-medium rounded-md"
-                    onClick={() => handelPlantDelete(plant._id)}
-                  >
-                    Remove
-                  </button> */}
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
-      <TopRatingBestSelling></TopRatingBestSelling>
+
+   
+      <section className="bg-gray-50 py-12">
+        <div className="max-w-screen-xl mx-auto px-4">
+      
+          <HowWorks />
+        </div>
+      </section>
+
+      <section className="bg-white py-12">
+        <div className="max-w-screen-xl mx-auto px-4">
+         
+          <TopRatingBestSelling />
+        </div>
+      </section>
+
+      <section className="bg-gray-50 py-12">
+        <div className="max-w-screen-xl mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-6 text-green-700">
+            💡 Tips For Plant Lovers
+          </h2>
+          <TipsForCustomer />
+        </div>
+      </section>
     </div>
   );
 };
 
 export default Home;
+

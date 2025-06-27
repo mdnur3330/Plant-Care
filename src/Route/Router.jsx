@@ -13,6 +13,12 @@ import PrivateRoute from "../Component/PrivateRoute";
 import TermsAndConditions from "../Component/TermsAndConditions";
 import PrivacyPolucy from "../Component/PrivacyPolucy";
 import ErrorPage from "../Component/ErrorPage";
+import About from "../Pages/About";
+import Dashboard from "../LayOut/DasbordLayout";
+import DashboardOverview from "../Pages/OverVewPage";
+import AllPlantDasbord from "../Pages/AllPlantDasbord";
+import ContactUs from "../Pages/ContactUs";
+import Support from "../Pages/Support";
 
 export const route = createBrowserRouter([
   {
@@ -34,6 +40,14 @@ export const route = createBrowserRouter([
         hydrateFallbackElement: <Looding></Looding>,
       },
       {
+        path: "/about",
+        element: <About></About>,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs></ContactUs>
+      },
+      {
         path: "/details/:id",
         element: (
           <PrivateRoute>
@@ -45,19 +59,7 @@ export const route = createBrowserRouter([
             `https://57-module-assintment-10.vercel.app/plant/${params.id}`
           ),
       },
-      {
-        path: "my-plant/:email",
-        element: (
-          <PrivateRoute>
-            <MyPlants></MyPlants>
-          </PrivateRoute>
-        ),
-        loader: ({ params }) =>
-          fetch(
-            `https://57-module-assintment-10.vercel.app/plant-by-email?email=${params.email}`
-          ),
-        method: "GET",
-      },
+    
       {
         path: "/update/:id",
         element: <Update></Update>,
@@ -67,19 +69,38 @@ export const route = createBrowserRouter([
           ),
       },
       { path: "/terms", element: <TermsAndConditions></TermsAndConditions> },
-      {
-        path: "add-plant",
-        element: (
-          <PrivateRoute>
-            <AddPlant></AddPlant>
-          </PrivateRoute>
-        ),
-      },
+
       { path: "/login", element: <Login></Login> },
 
-      { path: "/sing-up", element: <SignUp></SignUp> },
+      { path: "/sign-up", element: <SignUp></SignUp> },
 
       { path: "/privacy", element: <PrivacyPolucy></PrivacyPolucy> },
+      { path: "/support ", element: <Support></Support> },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard></Dashboard>,
+    children: [
+      {
+        index: true,
+        element: <DashboardOverview></DashboardOverview>
+      },
+      {
+        path: "add-plant",
+        element: <AddPlant></AddPlant>,
+      },
+      {
+        path: "my-plant",
+        element: <MyPlants></MyPlants>,
+      },
+       {
+        path: "all-item",
+        element: <AllPlantDasbord></AllPlantDasbord>,
+        loader: () => fetch("https://57-module-assintment-10.vercel.app/plant"),
+        hydrateFallbackElement: <Looding></Looding>,
+      },
+
     ],
   },
   {

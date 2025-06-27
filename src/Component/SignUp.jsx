@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router";
@@ -16,60 +17,55 @@ const SignUp = () => {
 
   const handelSignUp = (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
-    const photo = e.target.photo.value;
-    const email = e.target.email.value;
+    const name = e.target.name.value.trim();
+    const photo = e.target.photo.value.trim();
+    const email = e.target.email.value.trim();
     const password = e.target.password.value;
     const confirm = e.target.confirm.value;
-    // console.log(password, email, confirm);
 
     if (name.length < 6) {
       return Swal.fire({
         icon: "error",
-        text: "Invalid! Name must be more than 6 character!",
-        color: "#333",
+        text: "Name must be at least 6 characters!",
+        color: "#065f46",
       });
     }
-
     if (!/[A-Z]/.test(password)) {
       return Swal.fire({
         icon: "error",
-        text: "Invalid password! Needs at least one Uppercase letter!",
-        color: "#333",
+        text: "Password must have at least one uppercase letter!",
+        color: "#065f46",
       });
     }
-
     if (!/[a-z]/.test(password)) {
       return Swal.fire({
         icon: "error",
-        text: "Invalid password! Needs at least one Lowercase  letter!",
-        color: "#333",
+        text: "Password must have at least one lowercase letter!",
+        color: "#065f46",
       });
     }
-
     if (!/[0-9]/.test(password)) {
       return Swal.fire({
         icon: "error",
-        text: "Invalid password! Needs at least one Number digit!",
-        color: "#333",
+        text: "Password must have at least one number!",
+        color: "#065f46",
       });
     }
-
     if (!/^(?=.*[^A-Za-z0-9]).+$/.test(password)) {
       return Swal.fire({
         icon: "error",
-        text: "Invalid password! Needs at least one Special character!",
-        color: "#333",
+        text: "Password must have at least one special character!",
+        color: "#065f46",
       });
     }
-
     if (password !== confirm) {
       return Swal.fire({
         icon: "error",
-        text: "Password and confirm password must be equal and same!",
-        color: "#333",
+        text: "Password and Confirm Password must match!",
+        color: "#065f46",
       });
     }
+
     const userData = {
       displayName: name,
       photoURL: photo,
@@ -78,41 +74,25 @@ const SignUp = () => {
     signUp(email, password)
       .then(() => {
         userUpdateProfile(userData)
-          .then(() => {
-            console.log("update profile");
-          })
+          .then(() => {})
           .catch((error) => {
             console.log(error);
           });
 
-        // emailVerification().then(() => {});
-
-        //   .then(() => {
-        //     console.log("update profile");
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
-
-        // alert(
-        //   "Your account created successfullu  Verifify your Email to Login!"
-        // );
-        // window.location.href = "https://mail.google.com/";
-
         Swal.fire({
-          title: "Congratulations!",
-          text: "Your account created successfully!",
+          title: "Success!",
+          text: "Your account was created successfully.",
           icon: "success",
+          confirmButtonColor: "#16a34a",
         });
         navigate("/");
-        // console.log(user);
       })
       .catch((error) => {
-        console.log(error);
         Swal.fire({
           icon: "error",
-          title: "Oops...",
+          title: "Error",
           text: error.message,
+          confirmButtonColor: "#16a34a",
         });
       });
   };
@@ -121,161 +101,183 @@ const SignUp = () => {
     loginWithGoogle()
       .then(() => {
         Swal.fire({
-          title: "Congratulations!",
-          text: "Your account created successfully!",
+          title: "Success!",
+          text: "Logged in with Google successfully.",
           icon: "success",
+          confirmButtonColor: "#16a34a",
         });
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
         Swal.fire({
           icon: "error",
-          title: "Oops...",
+          title: "Error",
           text: error.message,
+          confirmButtonColor: "#16a34a",
         });
       });
   };
 
-  const handelPasswordHideShow = () => {
-    setHideShow(!hideShow);
-  };
-  const handelConfirmPasswordHideShow = () => {
-    setHideShowConfirm(!hideShowConfirm);
-  };
   return (
-    <div className="my-3 md:my-7">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12">
       <Helmet>
-        <title>SignUp</title>
+        <title>Sign Up | HariCare</title>
       </Helmet>
-      <div className="hero">
-        <div className="hero-content flex-col lg:flex-row-reverse gap-10">
-          <div className="card  w-full max-w-sm shrink-0 shadow-2xl">
-            <div className="card-body p-5 md:p-8 border border-gray-300">
-              <h1 className="text-5xl font-medium">SignUp now!</h1>
-              <form onSubmit={handelSignUp}>
-                <label className="label text-xl">Name</label>
-                <input
-                  type="text"
-                  className="input text-xl bg-gray-400"
-                  placeholder="Name"
-                  name="name"
-                  required
-                />
-                <label className="label text-xl">Photo</label>
-                <input
-                  type="text"
-                  className="input text-xl bg-gray-400"
-                  placeholder="Photo"
-                  name="photo"
-                  required
-                />
-                <label className="label text-xl">Email</label>
-                <input
-                  type="email"
-                  className="input text-xl bg-gray-400"
-                  placeholder="Email"
-                  name="email"
-                  required
-                />
-                <div className="relative">
-                  <label className="label text-xl">Password</label>
-                  <input
-                    type={hideShow ? "text" : "password"}
-                    name="password"
-                    className="input relative text-xl bg-gray-400"
-                    placeholder="*******"
-                    required
-                  />
-                  <div
-                    onClick={handelPasswordHideShow}
-                    className="top-10 right-7 z-2 absolute cursor-pointer"
-                  >
-                    {hideShow ? (
-                      <FaEyeSlash size={20} />
-                    ) : (
-                      <IoMdEye size={20} />
-                    )}
-                  </div>
-                </div>
-                <div className="relative">
-                  <label className="label text-xl">Confirm Password</label>
-                  <input
-                    type={hideShowConfirm ? "text" : "password"}
-                    name="confirm"
-                    className="input relative text-xl bg-gray-400"
-                    placeholder="*******"
-                    required
-                  />
-                  <div
-                    onClick={handelConfirmPasswordHideShow}
-                    className="top-10 right-7 z-2 absolute cursor-pointer"
-                  >
-                    {hideShowConfirm ? (
-                      <FaEyeSlash size={20} />
-                    ) : (
-                      <IoMdEye size={20} />
-                    )}
-                  </div>
-                </div>
+      <div className="max-w-md w-full bg-white rounded-xl shadow-lg border border-gray-200 p-8">
+        <h2 className="text-4xl font-bold text-gray-900 mb-8 text-center">
+          Create Account
+        </h2>
 
-                <input
-                  type="submit"
-                  className="btn btn-neutral mt-3 w-full bg-gray-800"
-                  value="SignUp"
-                />
-              </form>
-              <span
-                className="text-center my-4
-              "
-              >
-                Or
-              </span>
-              <button
-                onClick={handelGoogleSignUp}
-                className="btn border-[#e5e5e5]"
-              >
-                <svg
-                  aria-label="Google logo"
-                  width="16"
-                  height="16"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 512 512"
-                >
-                  <g>
-                    <path d="m0 0H512V512H0" fill="#fff"></path>
-                    <path
-                      fill="#34a853"
-                      d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
-                    ></path>
-                    <path
-                      fill="#4285f4"
-                      d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
-                    ></path>
-                    <path
-                      fill="#fbbc02"
-                      d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
-                    ></path>
-                    <path
-                      fill="#ea4335"
-                      d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
-                    ></path>
-                  </g>
-                </svg>
-                SignUp with Google
-              </button>
-              <p>
-                Already have an acount please{" "}
-                <Link
-                  className="underline text-indigo-800 font-medium"
-                  to="/login"
-                >
-                  LogIn
-                </Link>
-              </p>
-            </div>
+        <form onSubmit={handelSignUp}>
+          
+          <div>
+            <label
+              htmlFor="name"
+              className="block mb-2 text-gray-800 font-semibold text-lg"
+            >
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              placeholder="Name"
+              className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autoComplete="name"
+            />
           </div>
+
+          <div>
+            <label
+              htmlFor="photo"
+              className="block mb-2 text-gray-800 font-semibold text-lg"
+            >
+              Photo
+            </label>
+            <input
+              id="photo"
+              name="photo"
+              type="url"
+              required
+              placeholder="Photo URL"
+              className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autoComplete="photo"
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <label
+              htmlFor="email"
+              className="block mb-2 text-gray-800 font-semibold text-lg"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              placeholder="Email"
+              className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autoComplete="email"
+            />
+          </div>
+
+          <div className="relative">
+            <label
+              htmlFor="password"
+              className="block mb-2 text-gray-800 font-semibold text-lg"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type={hideShow ? "text" : "password"}
+              required
+              placeholder="*******"
+              className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 pr-12 text-gray-900  focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autoComplete="new-password"
+            />
+            <button
+              type="button"
+              onClick={() => setHideShow(!hideShow)}
+              className="absolute top-12 right-8 hover:text-green-600 transition"
+              aria-label={hideShow ? "Hide password" : "Show password"}
+            >
+              {hideShow ? <FaEyeSlash size={22} /> : <IoMdEye size={22} />}
+            </button>
+          </div>
+
+  
+          <div className="relative">
+            <label
+              htmlFor="confirm"
+              className="block mb-2 text-gray-800 font-semibold text-lg"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirm"
+              name="confirm"
+              type={hideShowConfirm ? "text" : "password"}
+              required
+              placeholder="*******"
+              className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 pr-12 text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+              autoComplete="new-password"
+            />
+            <button
+              type="button"
+              onClick={() => setHideShowConfirm(!hideShowConfirm)}
+              className="absolute top-12 right-8 text-gray-500 hover:text-green-600 transition"
+              aria-label={hideShowConfirm ? "Hide confirm password" : "Show confirm password"}
+            >
+              {hideShowConfirm ? <FaEyeSlash size={22} /> : <IoMdEye size={22} />}
+            </button>
+          </div>
+
+
+          
+           <input type="submit" className="w-full mt-5 bg-green-600 hover:bg-green-700 text-white text-xl font-semibold py-2 rounded-lg transition duration-300 cursor-pointer" value="Sign Up" />
+        </form>
+
+ 
+        <div className="flex items-center justify-center my-6">
+          <span className="border-b border-gray-300 w-1/3"></span>
+          <span className="mx-3  font-semibold">Or</span>
+          <span className="border-b border-gray-300 w-1/3"></span>
         </div>
+
+
+        <button
+          onClick={handelGoogleSignUp}
+          className="w-full flex items-center justify-center gap-3 border border-green-600 text-green-600 font-semibold py-3 rounded-md hover:bg-green-50 transition"
+          aria-label="Sign up with Google"
+        >
+          <svg
+            aria-hidden="true"
+            width="20"
+            height="20"
+            viewBox="0 0 512 512"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M113.47 309.408L89.594 364.968 50 365.19C21.125 324.153 5 277.776 5 230.12 5 179.052 27.71 131.542 69.536 94.72L112.812 133.868C91.406 154.238 80 185.412 80 216.828 80 251.528 94.997 283.432 113.47 309.408Z" fill="#FBBB00" />
+            <path d="M406.244 169.57C406.244 158.89 405.394 148.7 403.574 139.104H258.404V190.658H344.474C338.474 208.048 326.14 229.016 306.758 247.042L357.988 284.108C384.808 253.234 406.244 213.71 406.244 169.57Z" fill="#0F9D58" />
+            <path d="M114.356 354.164C138.152 381.37 174.784 398.924 218.6 398.924 277.74 398.924 319.682 372.264 343.016 344.96L293.122 309.928C277.34 324.276 256.234 336.208 218.728 336.208 187.316 336.208 159.11 320.148 141.578 299.996L114.356 354.164Z" fill="#4285F4" />
+            <path d="M405.816 256.114C405.816 241.916 402.796 229.798 397.956 219.088L335.372 233.042C341.18 243.358 344.296 255.176 344.296 266.362 344.296 292.694 327.21 314.488 306.858 333.016L358.94 372.776C386.902 344.71 405.816 302.734 405.816 256.114Z" fill="#EA4335" />
+          </svg>
+          Sign Up with Google
+        </button>
+
+        <p className="mt-6 text-center text-gray-700 font-medium">
+          Already have an account?{" "}
+          <Link to="/login" className="text-green-600 underline hover:text-green-700">
+            Log In
+          </Link>
+        </p>
       </div>
     </div>
   );

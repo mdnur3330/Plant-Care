@@ -1,18 +1,36 @@
-import React, { useContext, useState } from "react";
-import { Link, useLoaderData } from "react-router";
+
+
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Component/AuthProvider";
 import { Helmet } from "react-helmet";
 
 const MyPlants = () => {
-  const initialPlnats = useLoaderData();
-  console.log(initialPlnats);
+  const {user, handelDelete} = useContext(AuthContext)
 
-  const { handelDelete } = useContext(AuthContext);
-  // const [plants, setPlants] = useState(initialPlnats)
-  const [plants, setPlants] = useState(
-    Array.isArray(initialPlnats) ? initialPlnats : []
-  );
+  const [plants, setPlants] = useState();
+
+
+useEffect(() => {
+  if (!user?.email) return; 
+
+  const fetchData = async () => {
+    try {
+      const res = await fetch(`https://57-module-assintment-10.vercel.app/plant-by-email?email=${user.email}`);
+      const data = await res.json();
+      console.log("After adding data:", data);
+      setPlants(data)
+    } catch (error) {
+      console.error("Fetching error:", error);
+    }
+  };
+
+  fetchData();
+}, [user?.email]);
+
+
+
 
   const handelPlantDelete = (id) => {
     handelDelete(id)
@@ -21,13 +39,12 @@ const MyPlants = () => {
         if (data.deletedCount) {
           const newPlants = plants.filter((plant) => plant._id !== id);
           setPlants(newPlants);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your plant has been deleted successfully.",
+            icon: "success",
+          });
         }
-        console.log("after deleteing", data);
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your plant has been deleted.",
-          icon: "success",
-        });
       })
       .catch((err) => {
         console.log("Delete canceled or failed:", err);
@@ -35,56 +52,59 @@ const MyPlants = () => {
   };
 
   return (
-    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <div className="px-4 py-16 mx-auto max-w-screen-xl">
       <Helmet>
         <title>My Plants</title>
       </Helmet>
-      <div className="grid gap-8 lg:grid-cols-3 sm:max-w-sm sm:mx-auto lg:max-w-full">
-        {plants.lenght < 1
-          ? "You haven't added any plant items yet."
-          : plants.map((plant) => (
-              <div
-                key={plant._id}
-                className="overflow-hidden transition-shadow duration-300 bg-white rounded shadow-sm border border-gray-300"
-              >
-                <div>
-                  <img
-                    src={plant.photo}
-                    className="object-cover w-full h-64 border-b border-gray-300"
-                    alt=""
-                  />
-                </div>
-                <div className="p-5">
-                  <div className="mb-3 text-xs font-semibold tracking-wide uppercase">
-                    <p className="text-gray-600">last-Watered-date</p>
-                    <span className="text-gray-600">
-                      — {plant.lastWateredDate}
-                    </span>
-                  </div>
-                  <p className="inline-block mb-3 text-2xl font-bold leading-5 transition-colors duration-200 text-gray-900">
-                    {plant.plantName}
-                  </p>
-                  <p className="mb-2 text-gray-700 h-12 truncate">
-                    {plant.description}
-                  </p>
-                  <div className="flex justify-between">
-                    <Link
-                      className="border border-gray-500 text-gray-500 px-5 py-2 font-medium rounded-md"
-                      to={`/update/${plant._id}`}
-                    >
-                      Update Plant
-                    </Link>
-                    <button
-                      className="border border-gray-500  px-5 py-2 font-medium rounded-md"
-                      onClick={() => handelPlantDelete(plant._id)}
-                    >
-                      Remove
-                    </button>
-                  </div>
+
+      <h2 className="text-3xl font-bold text-center mb-10 text-green-700">My Plants</h2>
+
+      {plants?.length < 1 ? (
+        <div className="text-center py-20">
+          <h3 className="text-2xl text-gray-600 mb-4">🌱 You haven’t added any plants yet!</h3>
+          <p className="text-gray-500">Start your plant collection by adding a new plant now.</p>
+          <Link
+            to="/dashboard/add-plant"
+            className="inline-block mt-6 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+          >
+            Add Your First Plant
+          </Link>
+        </div>
+      ) : (
+        <div className="grid gap-8 lg:grid-cols-3 sm:grid-cols-2">
+          {plants?.map((plant) => (
+            <div
+              key={plant._id}
+              className="bg-white rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition duration-300"
+            >
+              <img
+                src={plant.photo}
+                alt={plant.plantName || "Plant"}
+                className="w-full h-64 object-cover border-b"
+              />
+              <div className="p-5">
+                <p className="text-sm text-gray-500 mb-1">Last Watered: {plant.lastWateredDate}</p>
+                <h3 className="text-xl font-semibold text-gray-800">{plant.plantName}</h3>
+                <p className="text-gray-600 mt-2 mb-4 h-14 overflow-hidden">{plant.description}</p>
+                <div className="flex justify-between">
+                  <Link
+                    to={`/update/${plant._id}`}
+                    className="px-4 py-2 text-sm border border-green-600 text-green-700 rounded hover:bg-green-100 transition"
+                  >
+                    Update
+                  </Link>
+                  <button
+                    onClick={() => handelPlantDelete(plant._id)}
+                    className="px-4 py-2 text-sm border border-red-500 text-red-600 rounded hover:bg-red-100 transition"
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
-            ))}
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

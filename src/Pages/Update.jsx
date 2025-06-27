@@ -1,3 +1,5 @@
+
+
 import React, { use } from "react";
 import { AuthContext } from "../Component/AuthProvider";
 import { useLoaderData } from "react-router";
@@ -6,7 +8,6 @@ import { Helmet } from "react-helmet";
 
 const Update = () => {
   const plant = useLoaderData();
-  console.log(plant);
   const { user } = use(AuthContext);
 
   const handeUpdatePlant = (e) => {
@@ -14,7 +15,6 @@ const Update = () => {
     const form = e.target;
     const formData = new FormData(form);
     const newPlant = Object.fromEntries(formData.entries());
-    console.log(newPlant);
 
     fetch(`https://57-module-assintment-10.vercel.app/plant/${plant._id}`, {
       method: "PUT",
@@ -32,153 +32,157 @@ const Update = () => {
             icon: "success",
           });
         }
-        console.log("after putting data ", data);
       });
   };
+
   return (
-    <div className="card w-full  shrink-0 shadow-2xl my-10 p-20">
+    <div className="card w-full shadow-2xl my-10 p-10 bg-green-50">
       <Helmet>
         <title>Update Plant</title>
       </Helmet>
-      <h3 className="text-center text-5xl">Update Plant</h3>
+
+      <h3 className="text-center text-5xl font-bold text-green-700 mb-10">🌱 Update Plant</h3>
+
       <form onSubmit={handeUpdatePlant} className="mx-auto">
-        <div className="card-body grid md:grid-cols-2 gap-5 mx-auto">
-          <fieldset className="fieldset">
-            <label className="label text-xl">User Name</label>
+        <div className="card-body grid md:grid-cols-2 gap-6">
+          <fieldset>
+            <label className="text-xl font-medium text-green-800">User Name</label>
             <input
               type="text"
-              className="input text-xl bg-gray-400"
+              className="input input-bordered bg-green-100 text-lg"
               name="userName"
               value={user.displayName}
-              placeholder="Name"
+              readOnly
             />
           </fieldset>
-          <fieldset className="fieldset">
-            <label className="label text-xl">User Email</label>
+          <fieldset>
+            <label className="text-xl font-medium text-green-800">User Email</label>
             <input
               type="email"
-              className="input text-xl bg-gray-400"
+              className="input input-bordered bg-green-100 text-lg"
               name="email"
               value={user.email}
-              placeholder="Email"
+              readOnly
             />
           </fieldset>
-          <fieldset className="fieldset">
-            <label className="label text-xl">Photo Url</label>
+
+          <fieldset>
+            <label className="text-xl font-medium text-green-800">Photo URL</label>
             <input
               type="text"
-              className="input text-xl bg-gray-400"
+              className="input input-bordered bg-green-100 text-lg"
               name="photo"
               defaultValue={plant.photo}
-              placeholder="Photo Url"
+              placeholder="Photo URL"
             />
           </fieldset>
-          <fieldset className="fieldset">
-            <label className="label text-xl">Plant Name</label>
+          <fieldset>
+            <label className="text-xl font-medium text-green-800">Plant Name</label>
             <input
               type="text"
-              className="input text-xl bg-gray-400"
+              className="input input-bordered bg-green-100 text-lg"
               name="plantName"
               defaultValue={plant.plantName}
               placeholder="Plant Name"
             />
           </fieldset>
-          <fieldset className="fieldset">
-            <label className="label text-xl">Last Watered Date</label>
+
+          <fieldset>
+            <label className="text-xl font-medium text-green-800">Last Watered Date</label>
             <input
               type="date"
-              className="input text-xl bg-gray-400"
+              className="input input-bordered bg-green-100 text-lg"
               name="lastWateredDate"
               defaultValue={plant.lastWateredDate}
-              placeholder="Last Watered Date"
             />
           </fieldset>
-          <fieldset className="fieldset">
-            <label className="label text-xl">Next Watering Date</label>
+          <fieldset>
+            <label className="text-xl font-medium text-green-800">Next Watering Date</label>
             <input
               type="date"
-              className="input text-xl bg-gray-400"
+              className="input input-bordered bg-green-100 text-lg"
               name="nextWateringDate"
               defaultValue={plant.nextWateringDate}
-              placeholder="Next Watering Date"
-            />
-          </fieldset>
-          <fieldset className="fieldset">
-            <label className="label text-xl">Watering Frequency</label>
-            <input
-              type="text"
-              className="input text-xl bg-gray-400"
-              name="wateringFrequency"
-              defaultValue={plant.wateringFrequency}
-              placeholder="Watering Frequency"
-            />
-          </fieldset>
-          <fieldset className="fieldset">
-            <label className="label text-xl">Health Status</label>
-            <input
-              type="text"
-              className="input text-xl bg-gray-400"
-              name="healthStatus"
-              defaultValue={plant.healthStatus}
-              placeholder="Health Status"
             />
           </fieldset>
 
-          <div className="flex gap-3">
-            <fieldset>
-              <label className="text-xl">Plant Category:</label> <br />
-              <select
-                defaultValue={plant.plantCategory}
-                name="plantCategory"
-                className="border px-5 py-2 my-2 text-xl  text-gray-400"
-              >
-                <option value="">select</option>
-                <option value={"Succulent"}>Succulent</option>
-                <option value={"Shrub"}>Shrub</option>
-                <option value={"Herb"}>Herb</option>
-                <option value={"Flowering"}>Flowering</option>
-                <option value={"Outdoor"}>Outdoor</option>
-                <option value={"Outdoor"}>Indoor</option>
-                <option value={"Tree"}>Tree</option>
-                <option value={"Cactus"}>Cactus</option>
-                <option value={"Bonsai"}>Bonsai</option>
-                <option value={"Aquatic"}> Aquatic</option>
-                <option value={"Climber"}>Climber</option>
-                <option value={"Vegetable Plant"}>Vegetable Plant</option>
-              </select>
-            </fieldset>
-            <fieldset>
-              <label className="text-xl">Care Level</label> <br />
-              <select
-                defaultValue={plant.plantCareLevel}
-                name="plantCareLevel"
-                className="border px-5 py-2 my-2 text-gray-400"
-              >
-                <option value="">select</option>
-                <option value="easy">easy</option>
-                <option value="moderate">moderate</option>
-                <option value="difficult">difficult</option>
-              </select>
-            </fieldset>
-          </div>
           <fieldset>
-            <label className="text-xl">Description</label>
-            <br />
+            <label className="text-xl font-medium text-green-800">Watering Frequency</label>
+            <input
+              type="text"
+              className="input input-bordered bg-green-100 text-lg"
+              name="wateringFrequency"
+              defaultValue={plant.wateringFrequency}
+              placeholder="e.g. Every 3 days"
+            />
+          </fieldset>
+          <fieldset>
+            <label className="text-xl font-medium text-green-800">Health Status</label>
+            <input
+              type="text"
+              className="input input-bordered bg-green-100 text-lg"
+              name="healthStatus"
+              defaultValue={plant.healthStatus}
+              placeholder="e.g. Healthy, Needs Attention"
+            />
+          </fieldset>
+
+          <fieldset className="md:col-span-2">
+            <div className="flex flex-col md:flex-row gap-5">
+              <div className="flex-1">
+                <label className="text-xl font-medium text-green-800">Plant Category</label>
+                <select
+                  defaultValue={plant.plantCategory}
+                  name="plantCategory"
+                  className="select select-bordered bg-green-100 text-lg w-full"
+                >
+                  <option value="">Select</option>
+                  <option value="Succulent">Succulent</option>
+                  <option value="Shrub">Shrub</option>
+                  <option value="Herb">Herb</option>
+                  <option value="Flowering">Flowering</option>
+                  <option value="Outdoor">Outdoor</option>
+                  <option value="Indoor">Indoor</option>
+                  <option value="Tree">Tree</option>
+                  <option value="Cactus">Cactus</option>
+                  <option value="Bonsai">Bonsai</option>
+                  <option value="Aquatic">Aquatic</option>
+                  <option value="Climber">Climber</option>
+                  <option value="Vegetable Plant">Vegetable Plant</option>
+                </select>
+              </div>
+              <div className="flex-1">
+                <label className="text-xl font-medium text-green-800">Care Level</label>
+                <select
+                  defaultValue={plant.plantCareLevel}
+                  name="plantCareLevel"
+                  className="select select-bordered bg-green-100 text-lg w-full"
+                >
+                  <option value="">Select</option>
+                  <option value="easy">Easy</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="difficult">Difficult</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset className="md:col-span-2">
+            <label className="text-xl font-medium text-green-800">Description</label>
             <textarea
               defaultValue={plant.description}
               name="description"
-              id=""
-              className="border border-gray-500  pt-2 rounded-sm mt-2"
-              cols="45"
+              className="textarea textarea-bordered bg-green-100 text-lg w-full mt-2"
               rows="4"
-              placeholder="Description heare..."
+              placeholder="Write a short description of the plant..."
             ></textarea>
           </fieldset>
-          <div className="col-span-1 md:col-span-2">
+
+          <div className="md:col-span-2">
             <input
               type="submit"
-              value="Update"
-              className="btn bg-gray-800 w-full"
+              value="✅ Update Plant"
+              className="btn bg-green-700 hover:bg-green-800 text-white text-xl w-full mt-4"
             />
           </div>
         </div>

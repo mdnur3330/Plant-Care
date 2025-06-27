@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import axios from "axios";
@@ -11,9 +13,7 @@ const AllPlants = () => {
   const fetchPlants = async () => {
     try {
       const res = await axios.get(
-        `https://57-module-assintment-10.vercel.app/plant${
-          sortBy ? `?sort=${sortBy}` : ""
-        }`
+        `https://57-module-assintment-10.vercel.app/plant${sortBy ? `?sort=${sortBy}` : ""}`
       );
       setPlants(res.data);
     } catch (error) {
@@ -26,70 +26,71 @@ const AllPlants = () => {
   }, [sortBy]);
 
   return (
-    <div className="px-1 md:w-9/12 mx-auto md:p-10 my-20">
+    <div className="px-4 md:w-10/12 mx-auto py-10">
       <Helmet>
-        <title>All Plants</title>
+        <title>All Plants | Dashboard</title>
       </Helmet>
-      <div className="mb-6">
-        <label className="font-semibold mr-2">Sort By:</label>
-        <select
-          onChange={(e) => setSortBy(e.target.value)}
-          className="border px-3 py-1 rounded"
-        >
-          <option value="">None</option>
-          <option value="careLevel">Care Level</option>
-          <option value="watering">Next Watering Date</option>
-        </select>
+
+    
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-green-700 mb-3">Explore All Plants</h1>
+        <p className="text-gray-600 max-w-2xl mx-auto">
+          Browse through a curated collection of beautiful and healthy plants. Use the filter option to sort by care level or upcoming watering needs.
+        </p>
       </div>
-      Cutrrent Date
-      <p className="border border-gray-100 px-5 py-2 rounded-lg">
-        {format(new Date(), "EEEE, MMMM MM, YYY")}
-      </p>
-      <table className="table mx-auto text-sm md:text-2xl">
-        <thead>
-          <tr className="text-gray-500 font-medium md:text-2xl">
-            <th className="hidden md:block">No</th>
-            <th>Photo</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>
-              Watering <br /> Frequency
-            </th>
-            <th>Show Details</th>
-          </tr>
-        </thead>
 
-        <tbody>
-          {plants.map((plant, i) => (
-            <tr key={plant._id}>
-              <td className="hidden md:block">{i + 1}</td>
-              <td>
-                <div className="md:flex items-center gap-3">
-                  <div>
-                    <div className="mask mask-squircle h-7 w-7 md:h-12 md:w-12">
-                      <img src={plant.photo} alt="photo" />
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td>{plant.plantName}</td>
-              <td>{plant.plantCategory}</td>
+  
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+        <div>
+          <label className="font-semibold mr-2 text-gray-700">Sort By:</label>
+          <select
+            onChange={(e) => setSortBy(e.target.value)}
+            className="border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+          >
+            <option value="">None</option>
+            <option value="careLevel">Care Level</option>
+            <option value="watering">Next Watering Date</option>
+          </select>
+        </div>
+        <p className="border border-gray-200 px-5 py-2 rounded-lg bg-white shadow-sm text-gray-600">
+          📅 {format(new Date(), "EEEE, MMMM dd, yyyy")}
+        </p>
+      </div>
 
-              <td>{plant.wateringFrequency}</td>
-              <td>
-                <Link
-                  to={`/details/${plant._id}`}
-                  className="border border-gray-500 px-5 py-2 rounded-md"
-                >
-                  Details
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+   
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {plants.map((plant) => (
+          <div
+            key={plant._id}
+            className="bg-white border border-gray-200 shadow-md rounded-lg overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg"
+          >
+            <img
+              src={plant.photo}
+              alt={plant.plantName}
+              className="w-full h-56 object-cover border-b"
+            />
+            <div className="p-4">
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                {plant.plantName.length > 8
+                  ? plant.plantName.slice(0, 8) + "..."
+                  : plant.plantName}
+              </h2>
+              <div className="text-sm text-gray-500 mb-3">
+                🌿 Healthy & ready to grow
+              </div>
+              <Link
+                to={`/details/${plant._id}`}
+                className="inline-block px-4 py-2 border border-green-600 text-green-600 font-medium rounded-md hover:bg-green-600 hover:text-white transition"
+              >
+                Details
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
 export default AllPlants;
+

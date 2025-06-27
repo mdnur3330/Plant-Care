@@ -6,9 +6,9 @@ import { AuthContext } from "../Component/AuthProvider";
 
 const Root = () => {
   return (
-    <div>
-      <header></header>
-      <nav>
+    <div className="m-0 p-0 box-border">
+   
+      <nav className="sticky top-0 bg-white shadow-md z-50 text-gray-800">
         <Navbar></Navbar>
       </nav>
       <main>

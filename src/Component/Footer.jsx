@@ -1,6 +1,19 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React from "react";
 import {
-  FaDove,
   FaFacebook,
   FaGithub,
   FaLinkedin,
@@ -11,70 +24,70 @@ import { Link } from "react-router";
 
 const Footer = () => {
   return (
-    <div className=" text-gray-600">
-      <div className="w-9/12 mx-auto md:flex justify-evenly md:pl-9  border-b border-dashed border-gray-300 pb-10 space-y-6">
-        <div className="flex-1">
-          <h2 className="text-sm md:text-4xl my-4 font-medium">HariCare </h2>
-          <p>
-            HariCare isn’t just a planet marketplace — it’s a vibrant community
-            for plant lovers. Buy, sell, and explore indoor and outdoor plants
-            with ease. We promote greener living through expert care tips,
-            curated collections, and a commitment to sustainability. Grow your
-            green space — one leaf at a time.
+    <footer className="bg-green-50 text-gray-700 pt-10">
+      <div className="max-w-screen-xl mx-auto px-6 md:px-12 grid md:grid-cols-3 gap-10 border-b border-gray-300 pb-10">
+        {/* Logo & Description */}
+        <div>
+          <h2 className="text-3xl font-bold text-green-800 mb-4">HariCare</h2>
+          <p className="text-gray-600 text-sm leading-relaxed">
+            HariCare isn’t just a plant marketplace — it’s a vibrant community
+            for plant lovers. Explore indoor and outdoor plants, get expert tips,
+            and grow your green space — one leaf at a time.
           </p>
         </div>
-        <div className="flex-1 md:pl-30 ">
-          <h3 className="text-sm md:text-2xl my-4 font-medium ">Quick Links</h3>
-          <ul className="text-left text-2xl space-y-5">
+
+        {/* Quick Links */}
+        <div>
+          <h3 className="text-xl font-semibold text-green-700 mb-4">Quick Links</h3>
+          <ul className="space-y-3 text-sm">
             <li>
-              <Link className="underline" to="/terms">
+              <Link to="/terms" className="hover:text-green-600 transition">
                 Terms and Conditions
               </Link>
             </li>
             <li>
-              <Link className="underline" to="/privacy">
+              <Link to="/privacy" className="hover:text-green-600 transition">
                 Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/support" className="hover:text-green-600 transition">
+                Support
               </Link>
             </li>
           </ul>
         </div>
-        <div className="flex-1 md:text-center">
-          <h3 className="text-sm md:text-2xl my-4 font-medium ">Follow Us</h3>
-          <div className="flex md:justify-center gap-5">
-            <Link
-              to="https://www.facebook.com/profile.php?id=100067795436674"
-              target="_blank"
-            >
-              <FaFacebook size={30}></FaFacebook>
-            </Link>
 
+        {/* Social Media */}
+        <div className="text-left md:text-center">
+          <h3 className="text-xl font-semibold text-green-700 mb-4">Follow Us</h3>
+          <div className="flex md:justify-center gap-4 text-green-700">
+            <Link to="https://www.facebook.com/profile.php?id=100067795436674" target="_blank">
+              <FaFacebook size={24} />
+            </Link>
             <Link to="https://github.com/mdnur3330" target="_blank">
-              <FaGithub size={30}></FaGithub>
+              <FaGithub size={24} />
             </Link>
-
-            <Link
-              to="https://www.linkedin.com/in/nur-alom1?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-              target="_blank"
-            >
-              <FaLinkedin size={30}></FaLinkedin>
+            <Link to="https://www.linkedin.com/in/nur-alom1" target="_blank">
+              <FaLinkedin size={24} />
             </Link>
-
-            <Link target="_blank" to="https://www.youtube.com/@hmnurulalom9359">
-              <FaYoutube size={30}></FaYoutube>
+            <Link to="https://www.youtube.com/@hmnurulalom9359" target="_blank">
+              <FaYoutube size={24} />
             </Link>
-
-            <Link target="_blank" to="https://wa.me/qr/HQUAFMEBDLC3G1">
-              {" "}
-              <FaWhatsapp size={30}></FaWhatsapp>
+            <Link to="https://wa.me/qr/HQUAFMEBDLC3G1" target="_blank">
+              <FaWhatsapp size={24} />
             </Link>
           </div>
         </div>
       </div>
-      <p className="text-center pt-4 mt-5">
-        © 2025 Stacked. All rights reserved.
-      </p>
-    </div>
+
+      {/* Bottom */}
+      <div className="py-4 text-center text-sm text-gray-500">
+        © 2025 HariCare. All rights reserved.
+      </div>
+    </footer>
   );
 };
 
 export default Footer;
+

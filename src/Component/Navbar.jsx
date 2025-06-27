@@ -1,245 +1,156 @@
+
+
+
+
+
 import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "./AuthProvider";
-import { FaMoon } from "react-icons/fa";
-import { MdOutlineWbSunny } from "react-icons/md";
-// import { Tooltip } from "react-tooltip";
+import logo from "../assets/8856763.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { user, singOutUser, darkMode, toggleTheme } = useContext(AuthContext);
+  const { user, singOutUser } = useContext(AuthContext);
 
-  const handelSignOUt = () => {
+  const handleSignOut = () => {
     singOutUser()
-      .then(() => {
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then(() => navigate("/login"))
+      .catch((error) => console.error(error));
   };
+
+  const navLinks = [
+    { path: "/", label: "Home" },
+    { path: "/all-plant", label: "All Plant" },
+    { path: "/about", label: "About Us" },
+    { path: "/contact", label: "Contact" },
+    { path: "/dashboard", label: "Dashboard" },
+  ];
 
   return (
     <>
-      <div className="navbar lg:flex justify-between shadow px-20 hidden">
-        <div className=" flex gap-4 items-center">
-          <h3 className="text-2xl font-bold mr-0.5">HariCare</h3>
-          <h2 className="break-all">{user?.email}</h2>
+      {/* Desktop Navbar */}
+      <div className="hidden lg:flex justify-between items-center px-8 py-4 bg-green-50 text-gray-800 shadow-md sticky top-0 z-50">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <img src={logo} alt="logo" className="w-10 h-10" />
+          <h1 className="text-2xl font-bold text-green-800">HariCare</h1>
         </div>
-        <div className="flex gap-5">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `text-2xl ${isActive ? "underline pb-2" : ""}`
-            }
-          >
-            Home
-          </NavLink>
 
-          <NavLink
-            to="/all-plant"
-            className={({ isActive }) =>
-              `text-2xl ${isActive ? "underline pb-2" : ""}`
-            }
-          >
-            All Plant
-          </NavLink>
-          <NavLink
-            to="/add-plant"
-            className={({ isActive }) =>
-              `text-2xl ${isActive ? "underline pb-2" : ""}`
-            }
-          >
-            Add Plant
-          </NavLink>
-          <NavLink
-            to={`/my-plant/${user?.email}`}
-            className={({ isActive }) =>
-              `text-2xl ${isActive ? "underline pb-2" : ""}`
-            }
-          >
-            My Plant
-          </NavLink>
-        </div>
-        <div className=" flex gap-5">
-          <div className="flex gap-3 items-center">
-            <h3 className="text-2xl font-medium ">
-              {user ? user.displayName : ""}
-            </h3>
-
-            {/* {user && (
-              <img
-                className="w-10 h-10 rounded-full"
-                src={user?.photoURL || "/default-avatar.png"}
-                data-tooltip-id="user-tooltip"
-                data-tooltip-content={user?.displayName}
-                alt="User Profile"
-                title={user?.displayName}
-                style={{
-                  cursor: "pointer",
-                  borderRadius: "50%",
-                  width: "40px",
-                  height: "40px",
-                }}
-              />
-            )}
-            <Tooltip id="user-tooltip" /> */}
-
-            <img
-              className="w-10 h-10 rounded-full"
-              alt="User"
-              src={`${
-                user
-                  ? user.photoURL
-                  : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              }`}
-              title={user?.displayName}
-            />
-          </div>
-
-          {user ? (
-            <button
-              onClick={handelSignOUt}
-              className="rounded-lg text-gray-600 font-bold"
+        {/* Links */}
+        <div className="flex gap-6">
+          {navLinks.map(({ path, label }) => (
+            <NavLink
+              key={path}
+              to={path}
+              className={({ isActive }) =>
+                `text-lg font-medium hover:text-green-600 transition ${
+                  isActive ? "text-green-700 underline underline-offset-4" : ""
+                }`
+              }
             >
-              Log out
-            </button>
+              {label}
+            </NavLink>
+          ))}
+        </div>
+
+        {/* User Area */}
+        <div className="flex items-center gap-4">
+          {user ? (
+            <>
+              <div className="flex items-center gap-2">
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  className="w-10 h-10 rounded-full border"
+                  alt="User"
+                />
+                <span className="text-sm font-semibold">{user.displayName}</span>
+              </div>
+              <Link to='/login'
+                onClick={handleSignOut}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+              >
+                Logout
+              </Link>
+            </>
           ) : (
             <>
-              <Link className="rounded-lg font-medium px-4 py-2" to="/login">
+              <Link
+                to="/login"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+              >
                 Login
               </Link>
-              <Link className="rounded-lg font-medium px-4 py-2" to="/sing-up">
+              <Link
+                to="/sign-up"
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+              >
                 Register
               </Link>
             </>
           )}
-
-          <button onClick={toggleTheme}>
-            {darkMode ? (
-              <FaMoon className="Switch to Dark Mode" size={30} color="white" />
-            ) : (
-              <MdOutlineWbSunny
-                className="Switch to Light Mode"
-                size={30}
-                color="black"
-              />
-            )}{" "}
-          </button>
         </div>
       </div>
 
-      {/* mobail navbar */}
+      {/* Mobile Navbar */}
+      <div className="lg:hidden navbar bg-green-50 px-4 py-3 shadow-sm text-gray-700">
+        <div className="flex justify-between items-center w-full">
+          <div className="flex items-center gap-2">
+            <img src={logo} alt="logo" className="w-10 h-10" />
+            <span className="text-xl font-bold text-green-800">HariCare</span>
+          </div>
 
-      <div className="navbar shadow-sm text-sm lg:hidden">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle"
-            >
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
+                className="w-6 h-6"
                 fill="none"
-                viewBox="0 0 24 24"
                 stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
               >
-                {" "}
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h7"
-                />{" "}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
               </svg>
-            </div>
+            </label>
             <ul
               tabIndex={0}
-              className="menu menu-sm text-white dropdown-content rounded-box z-1 mt-3 w-52 p-2 shadow bg-gray-950"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow bg-white rounded-box w-52"
             >
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/all-plant">All Plant</Link>
-              </li>
-              <li>
-                <Link to="/add-plant">Add Plant</Link>
-              </li>
-              <li>
-                <Link to={`/my-plant/${user?.email}`}>My Plant</Link>
+              {navLinks.map(({ path, label }) => (
+                <li key={path}>
+                  <Link to={path} className="hover:text-green-600">{label}</Link>
+                </li>
+              ))}
+
+              {user && (
+                <li>
+                  <Link to={`/my-plant/${user.email}`}>My Plant</Link>
+                </li>
+              )}
+
+              <li className="pt-2 border-t">
+                {user ? (
+                  <button
+                    onClick={handleSignOut}
+                    className="text-left text-red-600"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <Link to="/login">Login</Link>
+                )}
               </li>
             </ul>
           </div>
-          <button onClick={toggleTheme}>
-            {darkMode ? (
-              <FaMoon className="Switch to Dark Mode" size={20} color="white" />
-            ) : (
-              <MdOutlineWbSunny
-                className="Switch to Light Mode"
-                size={20}
-                color="black"
-              />
-            )}{" "}
-          </button>
         </div>
-
-        <div>
-          <h3 className="text-xl text-left font-medium ">HariCare</h3>
-        </div>
-        <div className="navbar-end">
-          <div className=" flex gap-5">
-            <div className="flex gap-3 items-center">
-              {/* {user && (
-  <img
-    className="w-10 h-10 rounded-full"
-    src={user?.photoURL}
-     data-tooltip-id="user2-tooltip"
-    data-tooltip-content={user.photoURL || "/default-avatar.png"}
-    alt="User Profile"
-    title={user?.displayName}
-    // style={{
-    //     cursor: 'pointer',
-    //     borderRadius: '50%',
-    //     width: '40px',
-    //     height: '40px',
-    //   }}
-       
-  />
-
-// )} */}
-              {/* // <Tooltip id="user2-tooltip" /> */}
-              <img
-                className="w-10 h-10 rounded-full ml-2"
-                alt="User"
-                src={`${
-                  user
-                    ? user.photoURL
-                    : "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                }`}
-                title={user?.displayName}
-              />
-            </div>
-            {user ? (
-              <button
-                onClick={handelSignOUt}
-                className=" font-medium rounded-lg px-2 py-1"
-              >
-                SignOut
-              </button>
-            ) : (
-              <Link className="rounded-lg font-medium px-2 py-1" to="/login">
-                <h2>Login</h2>
-              </Link>
-            )}
-          </div>
-        </div>
-        <div></div>
       </div>
     </>
   );
 };
 
 export default Navbar;
+
+
