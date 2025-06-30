@@ -6,7 +6,7 @@
 import React, { useContext } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "./AuthProvider";
-import logo from "../assets/8856763.png";
+import logo from '../assets/navLogo.png'
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className="hidden lg:flex justify-between items-center px-8 py-4 bg-green-50 text-gray-800 shadow-md sticky top-0 z-50">
         {/* Logo */}
         <div className="flex items-center gap-2">
-          <img src={logo} alt="logo" className="w-10 h-10" />
+          <img className="w-10 h-10" src={logo} alt="" />
           <h1 className="text-2xl font-bold text-green-800">HariCare</h1>
         </div>
 
@@ -95,7 +95,7 @@ const Navbar = () => {
       <div className="lg:hidden navbar bg-green-50 px-4 py-3 shadow-sm text-gray-700">
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-2">
-            <img src={logo} alt="logo" className="w-10 h-10" />
+            {/* <img src={logo} alt="logo" className="w-10 h-10" /> */}
             <span className="text-xl font-bold text-green-800">HariCare</span>
           </div>
 

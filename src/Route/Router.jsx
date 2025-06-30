@@ -80,11 +80,12 @@ export const route = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard></Dashboard>,
+    element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children: [
       {
         index: true,
         element: <DashboardOverview></DashboardOverview>
+        // loader: ()=>fetch('https://57-module-assintment-10.vercel.app/plants-count')
       },
       {
         path: "add-plant",

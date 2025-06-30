@@ -1,17 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React from "react";
 import {
   FaFacebook,
@@ -21,14 +7,19 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 import { Link } from "react-router";
+import logo from '../assets/navLogo.png'
 
 const Footer = () => {
+
   return (
     <footer className="bg-green-50 text-gray-700 pt-10">
       <div className="max-w-screen-xl mx-auto px-6 md:px-12 grid md:grid-cols-3 gap-10 border-b border-gray-300 pb-10">
-        {/* Logo & Description */}
+     
         <div>
-          <h2 className="text-3xl font-bold text-green-800 mb-4">HariCare</h2>
+          <div className="flex items-end mb-5">
+            <img className="w-16 h-14" src={logo} alt="" />
+            <h2 className="text-3xl font-bold text-green-800 mb-4">HariCare</h2>
+          </div>
           <p className="text-gray-600 text-sm leading-relaxed">
             HariCare isn’t just a plant marketplace — it’s a vibrant community
             for plant lovers. Explore indoor and outdoor plants, get expert tips,

@@ -1,10 +1,8 @@
-
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import item1 from "../assets/soil-8080788_1920.jpg";
-import item2 from "../assets/ai-generated-9016493_1920.jpg";
+import item2 from "../assets/plant care.jpg";
 import item3 from "../assets/pexels-shvetsa-11286066.jpg";
 import { Navigation } from "swiper/modules";
 
@@ -14,21 +12,21 @@ const slides = [
     highlight: "Refresh Your Space with Indoor Plants",
     description:
       "Add a touch of nature to your home with beautiful, refreshing indoor plants. Not only do they enhance the beauty of your space, but also purify the air and boost your mood.",
-    image: item1,
+    image: item2,
   },
   {
     title: "Plant Care Essentials",
     highlight: "Keep Your Plants Thriving",
     description:
       "Learn the fundamentals of proper plant care — watering, light, soil, and regular maintenance to help your greens thrive year-round.",
-    image: item2,
+    image: item3,
   },
   {
     title: "Plant Diagnosis & Treatment",
     highlight: "Healthy Plants Start Here",
     description:
       "Identify common issues, apply the right treatments, and ensure your plants recover quickly and grow stronger every day.",
-    image: item3,
+    image: item1,
   },
 ];
 

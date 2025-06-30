@@ -119,7 +119,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-green-100 to-green-200 flex items-center justify-center px-6 py-12">
       <Helmet>
         <title>Sign Up | HariCare</title>
       </Helmet>
